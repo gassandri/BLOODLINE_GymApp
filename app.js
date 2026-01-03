@@ -16,6 +16,44 @@
   let ACTIVE_SESSION = null;
   let ADMIN_MODE = false;
 
+  // ========= Inspiración =========
+  const INSPIRATION_MESSAGES = [
+    "LA DISCIPLINA CREA LA DIFERENCIA",
+    "ENTRENA COMO QUIERES JUGAR",
+    "HOY SE FORJA TU MEJOR VERSIÓN",
+    "CALIDAD ANTES QUE CANTIDAD",
+    "EL TRABAJO SILENCIOSO DA RESULTADOS",
+    "FUERTE DE CUERPO · FIRME DE MENTE",
+    "CADA REPETICIÓN CUENTA",
+    "LA CONSTANCIA SUPERA AL TALENTO",
+    "NO BUSQUES EXCUSAS, BUSCA PROGRESO",
+    "BLOODLINE · DISCIPLINA Y FUERZA"
+  ];
+
+  function showInspirationThenEnterApp(){
+    const inspire = $("inspire");
+    const inspireText = $("inspireText");
+    if (!inspire || !inspireText) return;
+
+    const msg = INSPIRATION_MESSAGES[Math.floor(Math.random() * INSPIRATION_MESSAGES.length)];
+    inspireText.textContent = msg;
+
+    inspire.classList.remove("hidden");
+    inspire.setAttribute("aria-hidden", "false");
+
+    // Reinicia animación
+    inspire.classList.remove("is-playing");
+    void inspire.offsetWidth;
+    inspire.classList.add("is-playing");
+
+    // Oculta al finalizar
+    setTimeout(() => {
+      inspire.classList.add("hidden");
+      inspire.setAttribute("aria-hidden", "true");
+      inspire.classList.remove("is-playing");
+    }, 2900);
+  }
+
   // ========= Helpers =========
   function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
 
@@ -462,8 +500,13 @@
 
     function enter(){
       if (!canEnter) return;
+
       splash.classList.add("is-hiding");
       setTimeout(() => splash.remove(), 450);
+
+      setTimeout(() => {
+        showInspirationThenEnterApp();
+      }, 220);
     }
 
     btn.addEventListener("click", enter);
